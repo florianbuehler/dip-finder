@@ -1,11 +1,46 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import { database } from '../config/firebase';
+
+import {collection, addDoc, doc, getDoc, setDoc, DocumentData} from 'firebase/firestore';
+import {useEffect, useState} from 'react';
+import {getAuth, signOut} from 'firebase/auth';
+import {useAuth} from '../hooks';
 
 const Home: NextPage = () => {
+  const [name, setName] = useState('')
+  const [age, setAge] = useState('')
+  const [info, setInfo] = useState<DocumentData | undefined>()
+  const docRef = doc(database, 'CRUD Data', '1')
+  const auth = getAuth();
+
+  const { user } = useAuth();
+
+  console.log('index - currentUser:', user)
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const setData = async () => {
+    const res = await setDoc(docRef, {
+      name: name,
+      age: Number(age)
+    })
+
+    setName('')
+    setAge('')
+    getData()
+  }
+
+  const getData = async () => {
+    const res = await getDoc(docRef)
+
+    setInfo(res.data())
+  }
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Create Next App</title>
 
@@ -13,53 +48,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <main>
+        <h1>Home</h1>
 
-        <p className={styles.description}>
-          Get started by editing <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-          </a>
-        </div>
+        <input type="text" value={name} placeholder="Name" onChange={e => setName(e.target.value)}/>
+        <input type="number" value={age} placeholder="Age" onChange={e => setAge(e.target.value)}/>
+        <button onClick={setData}>Add</button>
+        <p>Name: {info?.name}</p>
+        <p>Age: {info?.age}</p>
+        <button onClick={() => signOut(auth)}>sign out</button>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 };
