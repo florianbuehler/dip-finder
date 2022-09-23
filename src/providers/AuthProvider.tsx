@@ -1,14 +1,14 @@
-import {useEffect, useState} from 'react';
-import {getAuth, onIdTokenChanged, User} from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { getAuth, onIdTokenChanged, User } from 'firebase/auth';
 import nookies from 'nookies';
 import AuthContext from '../context/AuthContext';
 
 function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(null);
-  const auth = getAuth()
+  const auth = getAuth();
 
   useEffect(() => {
-    return onIdTokenChanged(auth,async (user) => {
+    return onIdTokenChanged(auth, async (user) => {
       if (!user) {
         setUser(null);
         nookies.set(undefined, 'token', '', { path: '/' });
@@ -20,9 +20,7 @@ function AuthProvider({ children }: any) {
     });
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 }
 
-export default AuthProvider
+export default AuthProvider;

@@ -4,15 +4,11 @@ export const middleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get('token');
 
-  console.log('middleware')
-  console.log(token)
-
   // user is logged in
   // TODO validate token
   if (token) {
     return NextResponse.next();
   }
-
 
   // user is not logged in
   // if the user want to visit a different page than the login register page

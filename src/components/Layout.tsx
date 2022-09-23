@@ -1,8 +1,11 @@
 import React from 'react';
-import { Router } from 'next/router';
 
-const Layout: React.FC = (props) => {
-  return <div></div>;
+type Props = {
+  children?: React.ReactNode;
+};
+
+const Layout: React.FC<Props> = ({ children }) => {
+  return <main className="h-screen flex bg-slate-100">{children}</main>;
 };
 
 export default Layout;

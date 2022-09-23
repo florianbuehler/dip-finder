@@ -1,9 +1,9 @@
-import {createContext, useEffect, useState} from 'react';
-import {getAuth, onIdTokenChanged, User} from 'firebase/auth';
+import { createContext, useEffect, useState } from 'react';
+import { getAuth, onIdTokenChanged, User } from 'firebase/auth';
 import nookies from 'nookies';
 
 const AuthContext = createContext<{ user: User | null }>({
-  user: null,
+  user: null
 });
 
-export default AuthContext
+export default AuthContext;

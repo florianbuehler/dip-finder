@@ -1,43 +1,43 @@
+import { useEffect, useState } from 'react';
+import { getAuth, signOut } from 'firebase/auth';
+import { collection, addDoc, doc, getDoc, setDoc, DocumentData } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { database } from '../config/firebase';
 
-import {collection, addDoc, doc, getDoc, setDoc, DocumentData} from 'firebase/firestore';
-import {useEffect, useState} from 'react';
-import {getAuth, signOut} from 'firebase/auth';
-import {useAuth} from '../hooks';
+import { useAuth } from '../hooks';
 
 const Home: NextPage = () => {
-  const [name, setName] = useState('')
-  const [age, setAge] = useState('')
-  const [info, setInfo] = useState<DocumentData | undefined>()
-  const docRef = doc(database, 'CRUD Data', '1')
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [info, setInfo] = useState<DocumentData | undefined>();
+  const docRef = doc(database, 'CRUD Data', '1');
   const auth = getAuth();
 
   const { user } = useAuth();
 
-  console.log('index - currentUser:', user)
+  console.log('index - currentUser:', user);
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   const setData = async () => {
     const res = await setDoc(docRef, {
       name: name,
       age: Number(age)
-    })
+    });
 
-    setName('')
-    setAge('')
-    getData()
-  }
+    setName('');
+    setAge('');
+    getData();
+  };
 
   const getData = async () => {
-    const res = await getDoc(docRef)
+    const res = await getDoc(docRef);
 
-    setInfo(res.data())
-  }
+    setInfo(res.data());
+  };
 
   return (
     <div>
@@ -51,8 +51,18 @@ const Home: NextPage = () => {
       <main>
         <h1>Home</h1>
 
-        <input type="text" value={name} placeholder="Name" onChange={e => setName(e.target.value)}/>
-        <input type="number" value={age} placeholder="Age" onChange={e => setAge(e.target.value)}/>
+        <input
+          type="text"
+          value={name}
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="number"
+          value={age}
+          placeholder="Age"
+          onChange={(e) => setAge(e.target.value)}
+        />
         <button onClick={setData}>Add</button>
         <p>Name: {info?.name}</p>
         <p>Age: {info?.age}</p>
