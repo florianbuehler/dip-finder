@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from 'react';
-import { getAuth, onIdTokenChanged, User } from 'firebase/auth';
-import nookies from 'nookies';
+import { createContext } from 'react';
+import { User } from 'firebase/auth';
 
 const AuthContext = createContext<{ user: User | null }>({
   user: null

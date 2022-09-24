@@ -1,5 +1,5 @@
 import React from 'react';
-import {GitHubIcon, GoogleIcon, LogoIcon} from './index';
+import { GitHubIcon, GoogleIcon, LogoIcon } from './index';
 
 export type IconName = 'GitHub' | 'Google' | 'Logo';
 

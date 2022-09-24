@@ -2,13 +2,11 @@ import React from 'react';
 import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import investing from '../assets/undraw_investing.svg';
-import { Icon } from './icons';
 import { Button } from './index';
 
-type Props = { title: string; children: React.ReactNode };
+type Props = { title: string; image: string; children: React.ReactNode };
 
-const AuthCard: React.FC<Props> = ({ title, children }) => {
+const AuthCard: React.FC<Props> = ({ title, image, children }) => {
   const auth = getAuth();
   const googleAuthProvider = new GoogleAuthProvider();
   const gitHubAuthProvider = new GithubAuthProvider();
@@ -30,7 +28,7 @@ const AuthCard: React.FC<Props> = ({ title, children }) => {
       <div className="flex gap-16 items-center m-auto">
         <div className="relative w-80 h-60">
           <Image
-            src={investing}
+            src={image}
             alt="Investing"
             layout="fill"
             objectFit="contain"

@@ -3,6 +3,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import investing from '../assets/undraw_investing.svg';
 import { AuthCard, Button, Input } from '../components';
 
 const Login: React.FC = () => {
@@ -20,12 +21,12 @@ const Login: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Login | Dip Finder </title>
 
-        <meta name="description" content="Register page" />
+        <meta name="description" content="Login page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AuthCard title="Login">
+      <AuthCard title="Login" image={investing}>
         <Input
           type="email"
           label="Email"
@@ -42,9 +43,9 @@ const Login: React.FC = () => {
           Sign In
         </Button>
         <div className="flex text-sm">
-          <p>No account yet? Simply</p>
-          <span className="ml-1 text-red-600">
-            <Link href="/register">Register</Link>
+          <p>No account yet?</p>
+          <span className="ml-1 text-emerald-600">
+            <Link href="/register">Register for free.</Link>
           </span>
         </div>
       </AuthCard>
