@@ -23,8 +23,8 @@ const AuthCard: React.FC<Props> = ({ title, image, children }) => {
   };
 
   return (
-    <section className="self-center m-auto bg-white px-12 py-10 rounded-xl shadow-xl">
-      <h1 className="text-3xl font-semibold text-center mb-8">{title}</h1>
+    <section className="self-center m-auto bg-slate-50 px-12 pt-10 pb-12 rounded-xl shadow-lg">
+      <h1 className="text-3xl font-semibold text-center mb-10">{title}</h1>
       <div className="flex gap-16 items-center m-auto">
         <div className="relative w-80 h-60">
           <Image
@@ -38,7 +38,7 @@ const AuthCard: React.FC<Props> = ({ title, image, children }) => {
         </div>
         <div className="flex flex-col w-72">
           {children}
-          <div className="mt-8">
+          <div className="mt-9">
             <div className="flex items-center mb-3">
               <div className="flex-grow bg-slate-300 h-0.5" />
               <p className="text-slate-500 px-2">Or continue with</p>

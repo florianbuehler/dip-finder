@@ -39,7 +39,7 @@ const Register: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={signUpWithEmail} className="mb-3">
+        <Button onClick={signUpWithEmail} className="mt-1 mb-3">
           Sign Up
         </Button>
         <div className="flex text-sm">

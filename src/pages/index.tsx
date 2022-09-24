@@ -3,6 +3,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, DocumentData } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { DipsBarChart } from '../components';
 import { database } from '../config/firebase';
 
 import { useAuth } from '../hooks';
@@ -39,8 +40,11 @@ const Home: NextPage = () => {
     setInfo(res.data());
   };
 
+  // this should come from firebase
+  const tickers = ['ABBV.VI', 'ALV.DE', 'BAS.DE', 'BMT.DE', 'SRB.F'];
+
   return (
-    <div>
+    <>
       <Head>
         <title>Dip Finder</title>
 
@@ -48,7 +52,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <div>
         <h1>Home</h1>
 
         <input
@@ -67,8 +71,9 @@ const Home: NextPage = () => {
         <p>Name: {info?.name}</p>
         <p>Age: {info?.age}</p>
         <button onClick={() => signOut(auth)}>sign out</button>
-      </main>
-    </div>
+        <DipsBarChart tickers={tickers} />
+      </div>
+    </>
   );
 };
 
