@@ -3,6 +3,8 @@ import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import investing from '../assets/undraw_investing.svg';
+import { Icon } from './icons';
+import { Button } from './index';
 
 type Props = { title: string; children: React.ReactNode };
 
@@ -39,14 +41,18 @@ const AuthCard: React.FC<Props> = ({ title, children }) => {
         <div className="flex flex-col w-72">
           {children}
           <div className="mt-8">
-            <div className="flex items-center">
+            <div className="flex items-center mb-3">
               <div className="flex-grow bg-slate-300 h-0.5" />
               <p className="text-slate-500 px-2">Or continue with</p>
               <div className="flex-grow bg-slate-300 h-0.5" />
             </div>
-            <div className="flex self-center">
-              <button onClick={signInWithGitHub}>GitHub</button>
-              <button onClick={signInWithGoogle}>Google</button>
+            <div className="flex self-center gap-4">
+              <Button className="flex-grow" icon="Google" onClick={signInWithGoogle}>
+                Google
+              </Button>
+              <Button className="flex-grow" icon="GitHub" onClick={signInWithGitHub}>
+                GitHub
+              </Button>
             </div>
           </div>
         </div>

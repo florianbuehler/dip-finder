@@ -7,7 +7,7 @@ type Props = { label?: string } & React.DetailedHTMLProps<
 
 const Input: React.FC<Props> = ({ label, ...props }) => {
   return (
-    <div className="mb-5">
+    <div className="mb-4">
       {label && (
         <label className="block mb-1.5 text-base font-medium text-slate-900 dark:text-slate-300">
           {label}
