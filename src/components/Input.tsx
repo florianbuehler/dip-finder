@@ -15,7 +15,7 @@ const Input: React.FC<Props> = ({ label, ...props }) => {
       )}
       <input
         {...props}
-        className="bg-white border border-slate-300 text-slate-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full py-2 px-2.5"
+        className="bg-white border border-slate-300 text-slate-900 text-base rounded-lg focus:ring-red-600 focus:border-red-600 w-full py-2 px-2.5"
       />
     </div>
   );

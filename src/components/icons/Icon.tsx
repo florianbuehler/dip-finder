@@ -1,7 +1,7 @@
 import React from 'react';
-import { GitHubIcon, GoogleIcon } from './index';
+import {GitHubIcon, GoogleIcon, LogoIcon} from './index';
 
-export type IconName = 'GitHub' | 'Google';
+export type IconName = 'GitHub' | 'Google' | 'Logo';
 
 type Props = {
   name: IconName;
@@ -13,6 +13,8 @@ const Icon: React.FC<Props> = ({ name, ...props }) => {
       return <GitHubIcon {...props} />;
     case 'Google':
       return <GoogleIcon {...props} />;
+    case 'Logo':
+      return <LogoIcon {...props} />;
   }
 };
 

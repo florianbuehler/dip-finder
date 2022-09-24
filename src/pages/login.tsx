@@ -38,8 +38,8 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={signUpWithEmail} className="bg-red-500 mb-3">
-          Sign Up
+        <Button onClick={signUpWithEmail} className="mb-3">
+          Sign In
         </Button>
         <div className="flex text-sm">
           <p>No account yet? Simply</p>
