@@ -8,10 +8,10 @@ type Props = {
 
 const getFinanceChart = async () => {
   const response = await fetch(
-    'https://query1.finance.yahoo.com/v8/finance/chart/ALV.DE?interval=1d&range=1y'
+    `${process.env.NEXT_PUBLIC_CORS_PROXY}https://query1.finance.yahoo.com/v8/finance/chart/ALV.DE?interval=1d&range=1y`
   );
 
-  console.log('response:', response)
+  console.log('response:', response);
 
   if (!response.ok) {
     throw new Error('Oops an error occurred!');
