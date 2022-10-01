@@ -36,8 +36,11 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="flex items-center justify-between h-14 bg-white dark:bg-slate-600/25 shadow-lg px-5">
-      <Icon name="logo" className="h-7 fill-sky-500" />
+    <header className="flex items-center justify-between h-16 bg-white dark:bg-transparent dark:ring-1 dark:ring-slate-100/10 shadow-md shadow-slate-900/5 px-5">
+      <div className="flex items-center">
+        <Icon name="logo" className="h-7 fill-sky-500" />
+        <span className="ml-4 text-xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700 dark:to-sky-300">Dip Finder</span>
+      </div>
       <div className="flex items-center gap-5 w-fit h-full">
         <Icon
           name={darkMode ? 'moon-stars' : 'sun'}
