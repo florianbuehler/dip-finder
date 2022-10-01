@@ -14,19 +14,22 @@ const Header: React.FC = () => {
   const handleThemeToggle = () => {
     if (darkMode) {
       localStorage.theme = 'light';
+      document.documentElement.classList.remove('dark');
     } else {
       localStorage.theme = 'dark';
+      document.documentElement.classList.add('dark');
     }
 
     setDarkMode((prevDarkMode) => !prevDarkMode);
   };
 
   return (
-    <header className="flex items-center h-12 bg-red-500">
+    <header className="flex items-center justify-between h-14 bg-white dark:bg-slate-800 shadow-lg px-4">
+      <Icon name="logo" className="h-7 fill-sky-500" />
       <Icon
         name={darkMode ? 'moon-stars' : 'sun'}
         onClick={handleThemeToggle}
-        className="h-6 cursor-pointer"
+        className="h-6 fill-sky-500 cursor-pointer"
       />
     </header>
   );

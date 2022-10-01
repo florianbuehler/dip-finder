@@ -24,7 +24,8 @@ const Login: React.FC = () => {
         <title>Login | Dip Finder </title>
 
         <meta name="description" content="Login page" />
-        <link rel="icon" href="/favicon.ico" />
+        {/*<link rel="icon" href="/favicon.ico" />*/}
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" sizes="any" />
       </Head>
       <AuthCard title="Login" image={investing}>
         <Input
@@ -44,7 +45,7 @@ const Login: React.FC = () => {
         </Button>
         <div className="flex text-sm">
           <p>No account yet?</p>
-          <span className="ml-1 text-emerald-600">
+          <span className="ml-1 text-sky-500">
             <Link href="/register">Register for free.</Link>
           </span>
         </div>

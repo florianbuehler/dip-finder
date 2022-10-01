@@ -9,7 +9,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
-      <main className="h-screen flex bg-slate-100">{children}</main>;
+      <main className="flex flex-grow">{children}</main>
     </>
   );
 };

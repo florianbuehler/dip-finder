@@ -24,7 +24,8 @@ const Register: React.FC = () => {
         <title>Register | Dip Finder</title>
 
         <meta name="description" content="Register page" />
-        <link rel="icon" href="/favicon.ico" />
+        {/*<link rel="icon" href="/favicon.ico" />*/}
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" sizes="any" />
       </Head>
       <AuthCard title="Register" image={investments}>
         <Input
@@ -44,7 +45,7 @@ const Register: React.FC = () => {
         </Button>
         <div className="flex text-sm">
           <p>Already have an account?</p>
-          <span className="ml-1 text-emerald-600">
+          <span className="ml-1 text-sky-500">
             <Link href="/login">Go to Login.</Link>
           </span>
         </div>
