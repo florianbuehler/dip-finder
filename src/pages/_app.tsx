@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { initializeApp } from 'firebase/app';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import Script from 'next/script';
 import { Layout } from '../components';
 import { firebaseConfig } from '../config/firebase';
@@ -16,6 +17,10 @@ const DipFinder: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <>
+      <Head>
+        <title>Dip Finder</title>
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" sizes="any" />
+      </Head>
       <Script id="theme">
         {`
           if (

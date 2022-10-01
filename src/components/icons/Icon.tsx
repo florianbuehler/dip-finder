@@ -1,7 +1,7 @@
 import React from 'react';
-import { GitHubIcon, GoogleIcon, LogoIcon, MoonStarsIcon, SunIcon } from './index';
+import { GitHubIcon, GoogleIcon, LogoIcon, MoonStarsIcon, SignOutIcon, SunIcon } from './index';
 
-export type IconName = 'github' | 'google' | 'logo' | 'moon-stars' | 'sun';
+export type IconName = 'github' | 'google' | 'logo' | 'moon-stars' | 'sign-out' | 'sun';
 
 type Props = {
   name: IconName;
@@ -17,6 +17,8 @@ const Icon: React.FC<Props> = ({ name, ...props }) => {
       return <LogoIcon {...props} />;
     case 'moon-stars':
       return <MoonStarsIcon {...props} />;
+    case 'sign-out':
+      return <SignOutIcon {...props} />;
     case 'sun':
       return <SunIcon {...props} />;
   }

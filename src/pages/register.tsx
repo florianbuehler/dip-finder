@@ -24,8 +24,6 @@ const Register: React.FC = () => {
         <title>Register | Dip Finder</title>
 
         <meta name="description" content="Register page" />
-        {/*<link rel="icon" href="/favicon.ico" />*/}
-        <link rel="icon" type="image/svg+xml" href="/logo.svg" sizes="any" />
       </Head>
       <AuthCard title="Register" image={investments}>
         <Input
