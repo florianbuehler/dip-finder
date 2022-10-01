@@ -1,7 +1,7 @@
 import React from 'react';
-import { GitHubIcon, GoogleIcon, LogoIcon } from './index';
+import { GitHubIcon, GoogleIcon, LogoIcon, MoonStarsIcon, SunIcon } from './index';
 
-export type IconName = 'GitHub' | 'Google' | 'Logo';
+export type IconName = 'github' | 'google' | 'logo' | 'moon-stars' | 'sun';
 
 type Props = {
   name: IconName;
@@ -9,12 +9,16 @@ type Props = {
 
 const Icon: React.FC<Props> = ({ name, ...props }) => {
   switch (name) {
-    case 'GitHub':
+    case 'github':
       return <GitHubIcon {...props} />;
-    case 'Google':
+    case 'google':
       return <GoogleIcon {...props} />;
-    case 'Logo':
+    case 'logo':
       return <LogoIcon {...props} />;
+    case 'moon-stars':
+      return <MoonStarsIcon {...props} />;
+    case 'sun':
+      return <SunIcon {...props} />;
   }
 };
 

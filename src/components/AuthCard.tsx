@@ -45,10 +45,10 @@ const AuthCard: React.FC<Props> = ({ title, image, children }) => {
               <div className="flex-grow bg-slate-300 h-0.5" />
             </div>
             <div className="flex self-center gap-4">
-              <Button className="flex-grow" icon="Google" onClick={signInWithGoogle}>
+              <Button className="flex-grow" icon="google" onClick={signInWithGoogle}>
                 Google
               </Button>
-              <Button className="flex-grow" icon="GitHub" onClick={signInWithGitHub}>
+              <Button className="flex-grow" icon="github" onClick={signInWithGitHub}>
                 GitHub
               </Button>
             </div>
