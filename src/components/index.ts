@@ -3,4 +3,5 @@ export { default as Button } from './Button';
 export { default as IconButton } from './IconButton';
 export { default as Input } from './Input';
 export { Layout } from './layout';
-export { default as DipsBarChart } from './DipsBarChart';
+export { default as PerformanceBarChart } from './PerformanceBarChart';
+export { default as StocksOverview } from './StocksOverview';

@@ -1,39 +1,18 @@
 import React from 'react';
 import { Bar } from '@nivo/bar';
-import { useQuery } from '@tanstack/react-query';
+import { Stock } from './types';
 
 type Props = {
-  tickers: string[];
+  stocks: Stock[];
 };
 
-const getFinanceChart = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CORS_PROXY}https://query1.finance.yahoo.com/v8/finance/chart/ALV.DE?interval=1d&range=1y`
-  );
-
-  console.log('response:', response);
-
-  if (!response.ok) {
-    throw new Error('Oops an error occurred!');
-  }
-
-  return response.json();
-};
-
-const DipsBarChart: React.FC<Props> = ({ tickers }) => {
+const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   const mockData = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
     return {
       change: -40 + 10 * i,
       stock: ['AAPL', 'BAT', 'TIO', 'ABB', 'ABBV', 'BYND', 'BYD', 'BXP', 'BX'][i]
     };
   });
-
-  const { data } = useQuery([tickers[1]], getFinanceChart, {
-    staleTime: 1000 * 60 * 15,
-    cacheTime: 1000 * 60 * 15
-  });
-
-  console.log('data:', data);
 
   return (
     <section className="bg-slate-50 rounded-xl shadow-lg p-12">
@@ -94,4 +73,4 @@ const DipsBarChart: React.FC<Props> = ({ tickers }) => {
   );
 };
 
-export default DipsBarChart;
+export default PerformanceBarChart;
