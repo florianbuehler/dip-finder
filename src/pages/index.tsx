@@ -88,14 +88,29 @@ const Home: NextPage = () => {
         queryFn: () => getFinanceChart(stock.ticker),
         staleTime: 1000 * 60 * 15,
         cacheTime: 1000 * 60 * 15,
-        select: (data) => ({
-          ticker: stock.ticker,
-          name: stock.name,
-          price: data.chart?.result[0].meta.regularMarketPrice
-        })
+        select: (data) => {
+          const metaData = data.chart?.result[0].meta;
+          const timestamps = data.chart?.result[0].timestamp;
+          const closeQuotes = data.chart?.result[0].indicators.quote[0].close;
+
+          return {
+            ticker: stock.ticker,
+            name: stock.name,
+            regularMarketTime: new Date(metaData.regularMarketTime * 1000),
+            currency: metaData.currency,
+            regularMarketPrice: metaData.regularMarketPrice,
+            previousPrice:
+              new Date(metaData.regularMarketTime * 1000).getDate() ===
+              new Date(timestamps.at(-1) * 1000).getDate()
+                ? closeQuotes.at(-2)
+                : closeQuotes.at(-1)
+          };
+        }
       };
     })
   });
+
+  console.log('stockQueries:', stockQueries);
 
   const handleStockDelete = async (ticker: string) => {
     setStocks((prevStocks) => prevStocks.filter((stock) => stock.ticker != ticker));

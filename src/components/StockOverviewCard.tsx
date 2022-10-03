@@ -29,7 +29,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
         <p>{query.data?.name}</p>
         <p className="text-xs text-slate-400 dark:text-slate-400">{query.data?.ticker}</p>
       </div>
-      {query.data?.price && <div>{query.data?.price?.toFixed(2)} €</div>}
+      {query.data?.regularMarketPrice && <div>{query.data?.regularMarketPrice?.toFixed(2)} €</div>}
       {inEditMode && (
         <IconButton
           iconName="trash-can"
