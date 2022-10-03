@@ -43,7 +43,7 @@ const AuthCard: React.FC<Props> = ({ title, image, children }) => {
           <div className="mt-9">
             <div className="flex items-center mb-3">
               <div className="flex-grow h-0.5 bg-slate-300 dark:bg-slate-600" />
-              <p className="px-2">Or continue with</p>
+              <p className="px-2 text-slate-500 dark:text-slate-400">Or continue with</p>
               <div className="flex-grow h-0.5 bg-slate-300 dark:bg-slate-600" />
             </div>
             <div className="flex self-center gap-4">
