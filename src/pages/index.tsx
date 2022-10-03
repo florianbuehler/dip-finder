@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useQueries, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { doc, getDoc, setDoc, DocumentData } from 'firebase/firestore';
+import { useQueries } from '@tanstack/react-query';
+import { getDocs, collection } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { PerformanceBarChart, StocksOverview } from '../components';
-import { Stock } from '../components/types';
 import { database } from '../config/firebase';
 import { useAuth } from '../hooks';
+
+type StoredStock = {
+  name: string;
+  ticker: string;
+};
 
 const getFinanceChart = async (ticker: string) => {
   const response = await fetch(
@@ -20,27 +24,54 @@ const getFinanceChart = async (ticker: string) => {
   return response.json();
 };
 
-const Home: NextPage = () => {
-  // const [name, setName] = useState('');
-  // const [age, setAge] = useState('');
-  // const [info, setInfo] = useState<DocumentData | undefined>();
-  // const docRef = doc(database, 'CRUD Data', '1');
-  //
-  // const { user } = useAuth();
-  //
-  // console.log('index - currentUser:', user);
+const getUserStocksFromFirestore = async (userId: string): Promise<StoredStock[]> => {
+  const querySnapshot = await getDocs(collection(database, `users/${userId}/stocks`));
 
-  // this should come from firebase
-  const stocks = [
-    { name: 'AbbVie', ticker: 'ABBV.VI' },
-    { name: 'Allianz', ticker: 'ALV.DE' },
-    { name: 'BASF', ticker: 'BAS.DE' },
-    { name: 'British American Tobacco', ticker: 'BMT.DE' },
-    { name: 'Starbucks', ticker: 'SRB.F' }
-  ];
+  return querySnapshot.docs.map((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    return doc.data() as StoredStock;
+  });
+};
+
+const Home: NextPage = () => {
+  const { user } = useAuth();
+  const [userStocks, setUserStocks] = useState<StoredStock[]>([]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      const getUserStocks = async () => {
+        const userStocksFromFirestore = await getUserStocksFromFirestore(user?.uid);
+
+        setUserStocks(userStocksFromFirestore);
+      };
+
+      void getUserStocks();
+
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'ABBV.VI'), {
+      //   name: 'AbbVie',
+      //   ticker: 'ABBV.VI'
+      // });
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'ALV.DE'), {
+      //   name: 'Allianz',
+      //   ticker: 'ALV.DE'
+      // });
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'BAS.DE'), {
+      //   name: 'BASF',
+      //   ticker: 'BAS.DE'
+      // });
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'BMT.DE'), {
+      //   name: 'British American Tobacco',
+      //   ticker: 'BMT.DE'
+      // });
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'SRB.F'), {
+      //   name: 'Starbucks',
+      //   ticker: 'SRB.F'
+      // });
+    }
+  }, [user?.uid]);
 
   const stockQueries = useQueries({
-    queries: stocks.map((stock) => {
+    queries: userStocks.map((stock) => {
       return {
         queryKey: ['stocks', stock.ticker],
         placeholderData: { ...stock },
@@ -56,42 +87,7 @@ const Home: NextPage = () => {
     })
   });
 
-  // useEffect(() => {
-  //   const queries = new Map<string, UseQueryResult>();
-  //
-  // }, [])
-  //
-  // tickers.map((ticker) => {
-  //   queries.set()
-  // })
-
-  // const { data } = useQuery([tickers[1]], getFinanceChart, {
-  //   staleTime: 1000 * 60 * 15,
-  //   cacheTime: 1000 * 60 * 15
-  // });
-
   console.log('stockQueries:', stockQueries);
-  //
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // const setData = async () => {
-  //   const res = await setDoc(docRef, {
-  //     name: name,
-  //     age: Number(age)
-  //   });
-  //
-  //   setName('');
-  //   setAge('');
-  //   getData();
-  // };
-  //
-  // const getData = async () => {
-  //   const res = await getDoc(docRef);
-  //
-  //   setInfo(res.data());
-  // };
 
   return (
     <>
@@ -102,23 +98,6 @@ const Home: NextPage = () => {
       </Head>
 
       <>
-        {/*<h1>Home</h1>*/}
-
-        {/*<input*/}
-        {/*  type="text"*/}
-        {/*  value={name}*/}
-        {/*  placeholder="Name"*/}
-        {/*  onChange={(e) => setName(e.target.value)}*/}
-        {/*/>*/}
-        {/*<input*/}
-        {/*  type="number"*/}
-        {/*  value={age}*/}
-        {/*  placeholder="Age"*/}
-        {/*  onChange={(e) => setAge(e.target.value)}*/}
-        {/*/>*/}
-        {/*<button onClick={setData}>Add</button>*/}
-        {/*<p>Name: {info?.name}</p>*/}
-        {/*<p>Age: {info?.age}</p>*/}
         <StocksOverview queries={stockQueries} />
         <PerformanceBarChart stocks={[]} />
       </>
