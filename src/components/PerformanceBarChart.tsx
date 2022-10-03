@@ -15,7 +15,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   });
 
   return (
-    <section className="bg-slate-50 rounded-xl shadow-lg p-12">
+    <section className="bg-white dark:bg-slate-600/25 rounded-xl p-12 shadow-lg dark:ring-1 dark:ring-slate-100/10">
       <Bar
         width={900}
         height={500}

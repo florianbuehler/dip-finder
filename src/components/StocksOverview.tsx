@@ -14,7 +14,7 @@ const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onDelete
   const [selectedStock, setSelectedStock] = useState<string>();
 
   return (
-    <section className="bg-white dark:bg-slate-600/25 rounded-xl w-96 py-4 shadow-lg dark:ring-1 dark:ring-slate-100/10">
+    <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 shadow-lg dark:ring-1 dark:ring-slate-100/10">
       <h2 className="text-center mb-4 text-2xl text-slate-900 dark:text-slate-200">Stocks</h2>
       {successfullyLoaded && queries.length === 0 && <h3>no stocks - todo</h3>}
       <div className="flex flex-col gap-2">
