@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { getDocs, collection } from 'firebase/firestore';
+import { deleteDoc, getDocs, collection, doc } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { PerformanceBarChart, StocksOverview } from '../components';
@@ -97,7 +97,10 @@ const Home: NextPage = () => {
     })
   });
 
-  console.log('stockQueries:', stockQueries);
+  const handleStockDelete = async (ticker: string) => {
+    setStocks((prevStocks) => prevStocks.filter((stock) => stock.ticker != ticker));
+    await deleteDoc(doc(database, `users/${user?.uid}/stocks`, ticker));
+  };
 
   return (
     <>
@@ -111,6 +114,7 @@ const Home: NextPage = () => {
           isLoading={isLoadingStocks}
           successfullyLoaded={successfullyLoadedStocks}
           queries={stockQueries}
+          onDelete={handleStockDelete}
         />
         <PerformanceBarChart stocks={[]} />
       </>
