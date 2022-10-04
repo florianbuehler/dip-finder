@@ -1,8 +1,8 @@
 export type Stock = {
   name: string;
   ticker: string;
-  regularMarketTime: Date;
-  currency: string;
-  regularMarketPrice: number;
-  previousPrice: number;
+  regularMarketTime: Date | undefined;
+  currency: string | undefined;
+  regularMarketPrice: number | undefined;
+  previousPrice: number | undefined;
 };

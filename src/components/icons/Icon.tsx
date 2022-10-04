@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  ArrowTrendDownIcon,
+  ArrowTrendUpIcon,
   GitHubIcon,
   GoogleIcon,
   LogoIcon,
@@ -10,6 +12,8 @@ import {
 } from './index';
 
 export type IconName =
+  | 'arrow-trend-down'
+  | 'arrow-trend-up'
   | 'github'
   | 'google'
   | 'logo'
@@ -24,6 +28,10 @@ type Props = {
 
 const Icon: React.FC<Props> = ({ name, ...props }) => {
   switch (name) {
+    case 'arrow-trend-down':
+      return <ArrowTrendDownIcon {...props} />;
+    case 'arrow-trend-up':
+      return <ArrowTrendUpIcon {...props} />;
     case 'github':
       return <GitHubIcon {...props} />;
     case 'google':

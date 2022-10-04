@@ -77,6 +77,10 @@ const Home: NextPage = () => {
       //   name: 'Starbucks',
       //   ticker: 'SRB.F'
       // });
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'SRB.F'), {
+      //   name: 'Rheinmetall',
+      //   ticker: 'RHM.DE'
+      // });
     }
   }, [user?.uid]);
 
@@ -92,6 +96,17 @@ const Home: NextPage = () => {
           const metaData = data.chart?.result[0].meta;
           const timestamps = data.chart?.result[0].timestamp;
           const closeQuotes = data.chart?.result[0].indicators.quote[0].close;
+
+          if (!metaData) {
+            return {
+              ticker: stock.ticker,
+              name: stock.name,
+              regularMarketTime: undefined,
+              currency: undefined,
+              regularMarketPrice: undefined,
+              previousPrice: undefined
+            };
+          }
 
           return {
             ticker: stock.ticker,
