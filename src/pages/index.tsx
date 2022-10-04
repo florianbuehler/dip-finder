@@ -12,6 +12,24 @@ type StoredStock = {
   ticker: string;
 };
 
+type YahooFinanceStockChart = {
+  chart: {
+    result: {
+      meta: {
+        currency: string;
+        regularMarketTime: number;
+        regularMarketPrice: number;
+      };
+      timestamp: number[];
+      indicators: {
+        quote: {
+          close: number[];
+        }[];
+      };
+    }[];
+  };
+};
+
 const getFinanceChart = async (ticker: string) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_CORS_PROXY}https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1y`
@@ -92,12 +110,13 @@ const Home: NextPage = () => {
         queryFn: () => getFinanceChart(stock.ticker),
         staleTime: 1000 * 60 * 15,
         cacheTime: 1000 * 60 * 15,
-        select: (data) => {
-          const metaData = data.chart?.result[0].meta;
-          const timestamps = data.chart?.result[0].timestamp;
-          const closeQuotes = data.chart?.result[0].indicators.quote[0].close;
+        select: (data: YahooFinanceStockChart) => {
+          const result = data.chart?.result[0];
+          const metaData = result.meta;
+          const timestamps = result.timestamp;
+          const closeQuotes = result.indicators.quote[0].close;
 
-          if (!metaData) {
+          if (!result) {
             return {
               ticker: stock.ticker,
               name: stock.name,
@@ -116,7 +135,7 @@ const Home: NextPage = () => {
             regularMarketPrice: metaData.regularMarketPrice,
             previousPrice:
               new Date(metaData.regularMarketTime * 1000).getDate() ===
-              new Date(timestamps.at(-1) * 1000).getDate()
+              new Date((timestamps.at(-1) || 0) * 1000).getDate()
                 ? closeQuotes.at(-2)
                 : closeQuotes.at(-1)
           };
