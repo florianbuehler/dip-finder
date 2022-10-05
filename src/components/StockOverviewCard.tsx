@@ -67,7 +67,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
   return (
     <div
       onClick={handleSelection}
-      className={`flex gap-2 items-center px-4 py-2 hover:bg-sky-500/10 rounded-md cursor-pointer ${
+      className={`flex gap-2 items-center px-4 py-2 hover:bg-sky-500/10 cursor-pointer ${
         isSelected && 'bg-sky-500/10'
       }`}
     >
