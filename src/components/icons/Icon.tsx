@@ -2,10 +2,13 @@ import React from 'react';
 import {
   ArrowTrendDownIcon,
   ArrowTrendUpIcon,
+  CancelIcon,
+  FloppyDiskIcon,
   GitHubIcon,
   GoogleIcon,
   LogoIcon,
   MoonStarsIcon,
+  PlusIcon,
   SignOutIcon,
   SunIcon,
   TrashCanIcon
@@ -14,10 +17,13 @@ import {
 export type IconName =
   | 'arrow-trend-down'
   | 'arrow-trend-up'
+  | 'cancel'
+  | 'floppy-disk'
   | 'github'
   | 'google'
   | 'logo'
   | 'moon-stars'
+  | 'plus'
   | 'sign-out'
   | 'sun'
   | 'trash-can';
@@ -30,6 +36,10 @@ const Icon: React.FC<Props> = ({ name, ...props }) => {
   switch (name) {
     case 'arrow-trend-down':
       return <ArrowTrendDownIcon {...props} />;
+    case 'cancel':
+      return <CancelIcon {...props} />;
+    case 'floppy-disk':
+      return <FloppyDiskIcon {...props} />;
     case 'arrow-trend-up':
       return <ArrowTrendUpIcon {...props} />;
     case 'github':
@@ -40,6 +50,8 @@ const Icon: React.FC<Props> = ({ name, ...props }) => {
       return <LogoIcon {...props} />;
     case 'moon-stars':
       return <MoonStarsIcon {...props} />;
+    case 'plus':
+      return <PlusIcon {...props} />;
     case 'sign-out':
       return <SignOutIcon {...props} />;
     case 'sun':

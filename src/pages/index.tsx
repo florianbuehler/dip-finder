@@ -95,7 +95,7 @@ const Home: NextPage = () => {
       //   name: 'Starbucks',
       //   ticker: 'SRB.F'
       // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'SRB.F'), {
+      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'RHM.DE'), {
       //   name: 'Rheinmetall',
       //   ticker: 'RHM.DE'
       // });

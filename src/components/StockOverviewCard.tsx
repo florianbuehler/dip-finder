@@ -67,7 +67,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
   return (
     <div
       onClick={handleSelection}
-      className={`flex items-center px-4 py-2 hover:bg-sky-500/10 rounded-md cursor-pointer ${
+      className={`flex gap-2 items-center px-4 py-2 hover:bg-sky-500/10 rounded-md cursor-pointer ${
         isSelected && 'bg-sky-500/10'
       }`}
     >
@@ -86,7 +86,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
           </span>
         </div>
       )}
-      <div className="flex flex-col items-end w-24">
+      <div className="flex flex-col items-end w-20">
         {query.data?.regularMarketPrice && (
           <span>{query.data?.regularMarketPrice?.toFixed(2)} €</span>
         )}
@@ -100,8 +100,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
         <IconButton
           iconName="trash-can"
           onClick={() => query.data?.ticker && onDelete(query.data?.ticker)}
-          className="h-8 w-8 ml-2 mr-[-0.75rem] hover:bg-red-600/20"
-          iconClassName="fill-red-600"
+          className="h-8 w-8 ml-2 mr-[-0.75rem] fill-red-600 hover:bg-red-600/20"
         />
       )}
     </div>
