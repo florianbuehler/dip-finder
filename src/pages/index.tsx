@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { deleteDoc, getDocs, collection, doc, addDoc, setDoc } from 'firebase/firestore';
+import { deleteDoc, getDocs, collection, doc, setDoc } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { PerformanceBarChart, StocksOverview } from '../components';
@@ -87,31 +87,6 @@ const Home: NextPage = () => {
       };
 
       void getStocks();
-
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'ABBV.VI'), {
-      //   name: 'AbbVie',
-      //   ticker: 'ABBV.VI'
-      // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'ALV.DE'), {
-      //   name: 'Allianz',
-      //   ticker: 'ALV.DE'
-      // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'BAS.DE'), {
-      //   name: 'BASF',
-      //   ticker: 'BAS.DE'
-      // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'BMT.DE'), {
-      //   name: 'British American Tobacco',
-      //   ticker: 'BMT.DE'
-      // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'SRB.F'), {
-      //   name: 'Starbucks',
-      //   ticker: 'SRB.F'
-      // });
-      // setDoc(doc(database, `users/${user?.uid}/stocks`, 'RHM.DE'), {
-      //   name: 'Rheinmetall',
-      //   ticker: 'RHM.DE'
-      // });
     }
   }, [user?.uid]);
 
