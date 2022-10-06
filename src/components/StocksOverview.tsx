@@ -9,12 +9,18 @@ type Props = {
   isLoading: boolean;
   successfullyLoaded: boolean;
   queries: UseQueryResult<Stock>[];
+  onAddStock: (stock: Stock) => void;
   onDelete: (ticker: string) => void;
 };
 
-const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onDelete }) => {
+const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onAddStock, onDelete }) => {
   const [selectedStock, setSelectedStock] = useState<string>();
   const [showAddStockCard, setShowAddStockCard] = useState(false);
+
+  const handleAddStock = (stock: Stock) => {
+    onAddStock(stock);
+    setShowAddStockCard(false);
+  };
 
   return (
     <section className="relative bg-white dark:bg-slate-600/25 rounded-xl py-4 px-0 shadow-lg dark:ring-1 dark:ring-slate-100/10 w-96">
@@ -27,7 +33,12 @@ const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onDelete
 
       {successfullyLoaded && queries.length === 0 && <h3>no stocks - todo</h3>}
 
-      {showAddStockCard && <AddStockCard onAddStockCancel={() => setShowAddStockCard(false)} />}
+      {showAddStockCard && (
+        <AddStockCard
+          onAddStock={handleAddStock}
+          onAddStockCancel={() => setShowAddStockCard(false)}
+        />
+      )}
       {successfullyLoaded && queries.length !== 0 && (
         <div className="flex flex-col gap-2">
           {queries.map((query) => (

@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { Stock } from './types';
 import { IconButton, Input } from './index';
 
 type Props = {
+  onAddStock: (stock: Stock) => void;
   onAddStockCancel: () => void;
 };
 
-const AddStockCard: React.FC<Props> = ({ onAddStockCancel }) => {
+const AddStockCard: React.FC<Props> = ({ onAddStock, onAddStockCancel }) => {
   const [newStockName, setNewStockName] = useState('');
-  const [newStockSymbol, setNewStockSymbol] = useState('');
+  const [newStockTicker, setNewStockTicker] = useState('');
+
+  const handleAddStock = () => {
+    onAddStock({ name: newStockName, ticker: newStockTicker } as Stock);
+  };
 
   const handleAddStockCancel = () => {
     onAddStockCancel();
@@ -23,7 +29,7 @@ const AddStockCard: React.FC<Props> = ({ onAddStockCancel }) => {
         />
         <IconButton
           iconName="floppy-disk"
-          onClick={() => console.log('save')}
+          onClick={handleAddStock}
           className="h-7 w-7 p-1.5 mr-[-0.5rem]"
         />
       </div>
@@ -37,9 +43,9 @@ const AddStockCard: React.FC<Props> = ({ onAddStockCancel }) => {
         />
         <Input
           type="text"
-          value={newStockSymbol}
-          label="Stock symbol"
-          onChange={(e) => setNewStockSymbol(e.target.value)}
+          value={newStockTicker}
+          label="Stock ticker"
+          onChange={(e) => setNewStockTicker(e.target.value)}
           className="w-32 mb-0"
         />
       </div>

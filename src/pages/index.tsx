@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { deleteDoc, getDocs, collection, doc } from 'firebase/firestore';
+import { deleteDoc, getDocs, collection, doc, addDoc, setDoc } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { PerformanceBarChart, StocksOverview } from '../components';
+import { Stock } from '../components/types';
 import { database } from '../config/firebase';
 import { useAuth } from '../hooks';
 
@@ -51,6 +52,18 @@ const getStocksFromFirestore = async (userId: string): Promise<StoredStock[]> =>
   });
 };
 
+const sortStocks = (stock1: StoredStock, stock2: StoredStock) => {
+  if (stock1.name < stock2.name) {
+    return -1;
+  }
+
+  if (stock1.name > stock2.name) {
+    return 1;
+  }
+
+  return 0;
+};
+
 const Home: NextPage = () => {
   const { user } = useAuth();
   const [stocks, setStocks] = useState<StoredStock[]>([]);
@@ -65,7 +78,7 @@ const Home: NextPage = () => {
         try {
           const stocksFromFirestore = await getStocksFromFirestore(user?.uid);
           setSuccessfullyLoadedStocks(true);
-          setStocks(stocksFromFirestore);
+          setStocks(stocksFromFirestore.sort(sortStocks));
         } catch (e) {
           console.error('error:', e);
         }
@@ -112,9 +125,9 @@ const Home: NextPage = () => {
         cacheTime: 1000 * 60 * 15,
         select: (data: YahooFinanceStockChart) => {
           const result = data.chart?.result[0];
-          const metaData = result.meta;
-          const timestamps = result.timestamp;
-          const closeQuotes = result.indicators.quote[0].close;
+          const metaData = result?.meta;
+          const timestamps = result?.timestamp;
+          const closeQuotes = result?.indicators.quote[0].close;
 
           if (!result) {
             return {
@@ -146,6 +159,16 @@ const Home: NextPage = () => {
 
   console.log('stockQueries:', stockQueries);
 
+  const handleAddStock = async (stock: Stock) => {
+    setStocks((prevStocks) =>
+      [...prevStocks, { name: stock.name, ticker: stock.ticker }].sort(sortStocks)
+    );
+    await setDoc(doc(database, `users/${user?.uid}/stocks`, stock.ticker), {
+      name: stock.name,
+      ticker: stock.ticker
+    });
+  };
+
   const handleStockDelete = async (ticker: string) => {
     setStocks((prevStocks) => prevStocks.filter((stock) => stock.ticker != ticker));
     await deleteDoc(doc(database, `users/${user?.uid}/stocks`, ticker));
@@ -163,6 +186,7 @@ const Home: NextPage = () => {
           isLoading={isLoadingStocks}
           successfullyLoaded={successfullyLoadedStocks}
           queries={stockQueries}
+          onAddStock={handleAddStock}
           onDelete={handleStockDelete}
         />
         <PerformanceBarChart stocks={[]} />
