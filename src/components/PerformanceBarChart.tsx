@@ -42,7 +42,8 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
 
   return (
     <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 px-8 shadow-lg dark:ring-1 dark:ring-slate-100/10">
-      <h2 className="text-center mb-6 text-2xl text-slate-900 dark:text-slate-200">Performance</h2>
+      <h2 className="text-center mb-8 text-2xl text-slate-900 dark:text-slate-200">Performance</h2>
+      <p className="mb-6">The performance of the stock in relation to the 200 days average.</p>
       <div ref={barChartRef}>
         {isLoading && <h2>Loading</h2>}
         {!isLoading && (
@@ -50,13 +51,11 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
             width={barChartRef.current?.offsetWidth || 900}
             height={500}
             margin={{ top: 20 }}
-            // margin={{ top: 60, right: 110, bottom: 60, left: 80 }}
             labelSkipWidth={16}
             labelSkipHeight={16}
             keys={['change']}
             padding={0.4}
-            // colors={['#97e3d5', '#61cdbb', '#f47560', '#e25c3b']}
-            colors={({ value }) => (value && value < 0 ? '#f47560' : '#61cdbb')}
+            colors={({ value }) => (value && value < 0 ? '#ef4444' : '#22c55e')}
             valueFormat={(v) => `${v}%`}
             data={data}
             indexBy={'name'}
@@ -64,7 +63,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
             maxValue={30}
             enableGridX={true}
             enableGridY={true}
-            labelTextColor={'inherit:darker(1.2)'}
+            labelTextColor={({ color }) => (color === '#ef4444' ? '#fee2e2' : '#dcfce7')}
             axisTop={{
               tickSize: 0,
               tickPadding: 12
@@ -85,7 +84,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
               {
                 axis: 'y',
                 value: 0,
-                lineStyle: { stroke: '#f47560', strokeWidth: 1 }
+                lineStyle: { stroke: isDarkTheme ? '#94a3b8' : '#64748b', strokeWidth: 1 }
               }
               // {
               //   axis: 'y',
@@ -98,7 +97,10 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
               //   legendOffsetY: 120
               // } as const
             ]}
-            theme={{ grid: { line: { stroke: isDarkTheme ? '#475569' : '#cbd5e1' } } }}
+            theme={{
+              axis: { ticks: { text: { fill: isDarkTheme ? '#cbd5e1' : '#475569' } } },
+              grid: { line: { stroke: isDarkTheme ? '#475569' : '#cbd5e1' } }
+            }}
           />
         )}
       </div>

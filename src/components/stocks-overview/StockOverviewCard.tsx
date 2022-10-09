@@ -72,23 +72,25 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
       }`}
     >
       <div className="flex-grow flex flex-col">
-        <span>{query.data?.name}</span>
+        <span className="dark:text-slate-300">{query.data?.name}</span>
         <span className="text-sm text-slate-400 dark:text-slate-500">{query.data?.ticker}</span>
       </div>
       {change && (
         <div className="flex flex-col items-center w-16">
           <Icon
             name={change < 0 ? 'arrow-trend-down' : 'arrow-trend-up'}
-            className={`w-6 ${change > 0 ? 'fill-green-600' : 'fill-red-600'}`}
+            className={`w-6 ${change > 0 ? 'fill-green-500' : 'fill-red-500'}`}
           />
-          <span className={`text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <span className={`text-sm ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
             {change < 0 && '-'} {Math.abs(change * 100).toFixed(2)} %
           </span>
         </div>
       )}
       <div className="flex flex-col items-end w-20">
         {query.data?.regularMarketPrice && (
-          <span>{query.data?.regularMarketPrice?.toFixed(2)} €</span>
+          <span className="dark:text-slate-300">
+            {query.data?.regularMarketPrice?.toFixed(2)} €
+          </span>
         )}
         {query.data?.regularMarketTime && (
           <span className="text-xs text-slate-500">
