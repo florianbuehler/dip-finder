@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { getAuth, onIdTokenChanged, User } from 'firebase/auth';
 import nookies from 'nookies';
 import AuthContext from '../context/AuthContext';
 
-function AuthProvider({ children }: any) {
+function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth();
 
@@ -18,7 +18,7 @@ function AuthProvider({ children }: any) {
         nookies.set(undefined, 'token', token, { path: '/' });
       }
     });
-  }, []);
+  }, [auth]);
 
   return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 }

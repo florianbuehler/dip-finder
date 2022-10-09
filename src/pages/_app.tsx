@@ -8,7 +8,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { Layout } from '../components';
 import { firebaseConfig } from '../config/firebase';
-import { AuthProvider } from '../providers';
+import { AuthProvider, ThemeProvider } from '../providers';
 
 const queryClient = new QueryClient();
 
@@ -34,14 +34,16 @@ const DipFinder: React.FC<AppProps> = ({ Component, pageProps }) => {
           }
         `}
       </Script>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </AuthProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </>
   );
 };

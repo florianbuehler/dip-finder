@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../hooks';
+import { useAuth, useTheme } from '../../hooks';
 import { Icon } from '../icons';
 import { IconButton } from '../index';
 
@@ -9,26 +9,18 @@ const Header: React.FC = () => {
   const auth = getAuth();
   const { user } = useAuth();
   const router = useRouter();
-
-  const [darkMode, setDarkMode] = useState<boolean>();
-
-  useEffect(() => {
-    setDarkMode(
-      localStorage.theme === 'dark' ||
-        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    );
-  }, []);
+  const { isDarkTheme, onThemeToggle } = useTheme();
 
   const handleThemeToggle = () => {
-    if (darkMode) {
+    if (isDarkTheme) {
       localStorage.theme = 'light';
       document.documentElement.classList.remove('dark');
+      onThemeToggle('light');
     } else {
       localStorage.theme = 'dark';
       document.documentElement.classList.add('dark');
+      onThemeToggle('dark');
     }
-
-    setDarkMode((prevDarkMode) => !prevDarkMode);
   };
 
   const handleSignOut = () => {
@@ -46,9 +38,9 @@ const Header: React.FC = () => {
       </div>
       <div className="flex items-center gap-1 w-fit h-ful">
         <IconButton
-          iconName={darkMode ? 'moon-stars' : 'sun'}
+          iconName={isDarkTheme ? 'moon-stars' : 'sun'}
           className="h-6 w-6"
-          iconClassName={darkMode ? 'mb-1' : ''}
+          iconClassName={isDarkTheme ? 'mb-1' : ''}
           onClick={handleThemeToggle}
         />
         {user && (

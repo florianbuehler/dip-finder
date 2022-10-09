@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from '@nivo/bar';
-import { useStocksQueries } from '../hooks';
+import { useStocksQueries, useTheme } from '../hooks';
 import { StoredStock } from '../types';
 
 type Props = {
@@ -12,6 +12,7 @@ const getArrayAvg = (arr: number[]): number =>
 
 const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   const queries = useStocksQueries(stocks);
+  const { isDarkTheme } = useTheme();
 
   const isLoading =
     queries.length === 0 || queries.reduce((prev, curr) => prev || curr.isFetching, false);
@@ -38,7 +39,8 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   });
 
   return (
-    <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl p-12 shadow-lg dark:ring-1 dark:ring-slate-100/10">
+    <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 px-8 shadow-lg dark:ring-1 dark:ring-slate-100/10">
+      <h2 className="text-center mb-6 text-2xl text-slate-900 dark:text-slate-200">Performance</h2>
       <Bar
         width={900}
         height={500}
@@ -53,8 +55,8 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
         valueFormat={(v) => `${v}%`}
         data={data}
         indexBy={'name'}
-        minValue={-100}
-        maxValue={100}
+        minValue={-30}
+        maxValue={30}
         enableGridX={true}
         enableGridY={true}
         labelTextColor={'inherit:darker(1.2)'}
@@ -91,6 +93,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
           //   legendOffsetY: 120
           // } as const
         ]}
+        theme={{ grid: { line: { stroke: isDarkTheme ? '#475569' : '#cbd5e1' } } }}
       />
     </section>
   );
