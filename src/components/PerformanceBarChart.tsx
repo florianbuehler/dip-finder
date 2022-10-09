@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Bar } from '@nivo/bar';
 import { useStocksQueries, useTheme } from '../hooks';
 import { StoredStock } from '../types';
@@ -11,15 +11,17 @@ const getArrayAvg = (arr: number[]): number =>
   arr.reduce((prev, curr) => prev + curr, 0) / arr.length;
 
 const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
-  const queries = useStocksQueries(stocks);
   const { isDarkTheme } = useTheme();
+  const barChartRef = useRef<HTMLDivElement>(null);
+
+  const queries = useStocksQueries(stocks);
 
   const isLoading =
     queries.length === 0 || queries.reduce((prev, curr) => prev || curr.isFetching, false);
 
-  if (isLoading) {
-    return <h2>Loading</h2>;
-  }
+  // if (isLoading) {
+  //   return <h2>Loading</h2>;
+  // }
 
   const data = queries.map<{ ticker: string; name: string; change: string }>((query) => {
     const last200CloseQuotes = query.data?.closeQuotes?.slice(-200);
@@ -41,60 +43,65 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   return (
     <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 px-8 shadow-lg dark:ring-1 dark:ring-slate-100/10">
       <h2 className="text-center mb-6 text-2xl text-slate-900 dark:text-slate-200">Performance</h2>
-      <Bar
-        width={900}
-        height={500}
-        margin={{ top: 20 }}
-        // margin={{ top: 60, right: 110, bottom: 60, left: 80 }}
-        labelSkipWidth={16}
-        labelSkipHeight={16}
-        keys={['change']}
-        padding={0.4}
-        // colors={['#97e3d5', '#61cdbb', '#f47560', '#e25c3b']}
-        colors={({ value }) => (value && value < 0 ? '#f47560' : '#61cdbb')}
-        valueFormat={(v) => `${v}%`}
-        data={data}
-        indexBy={'name'}
-        minValue={-30}
-        maxValue={30}
-        enableGridX={true}
-        enableGridY={true}
-        labelTextColor={'inherit:darker(1.2)'}
-        axisTop={{
-          tickSize: 0,
-          tickPadding: 12
-        }}
-        // axisBottom={{
-        //   legend: 'USERS',
-        //   legendPosition: 'middle' as const,
-        //   legendOffset: 50,
-        //   tickSize: 0,
-        //   tickPadding: 12
-        // }}
-        axisLeft={null}
-        // axisRight={{
-        //   format: (v: number) => `${Math.abs(v)}%`
-        // }}
-        axisRight={null}
-        markers={[
-          {
-            axis: 'y',
-            value: 0,
-            lineStyle: { stroke: '#f47560', strokeWidth: 1 }
-          }
-          // {
-          //   axis: 'y',
-          //   value: 0,
-          //   lineStyle: { stroke: '#f47560', strokeWidth: 1 },
-          //   textStyle: { fill: '#e25c3b' },
-          //   legend: 'loss',
-          //   legendPosition: 'bottom-left',
-          //   legendOrientation: 'vertical',
-          //   legendOffsetY: 120
-          // } as const
-        ]}
-        theme={{ grid: { line: { stroke: isDarkTheme ? '#475569' : '#cbd5e1' } } }}
-      />
+      <div ref={barChartRef}>
+        {isLoading && <h2>Loading</h2>}
+        {!isLoading && (
+          <Bar
+            width={barChartRef.current?.offsetWidth || 900}
+            height={500}
+            margin={{ top: 20 }}
+            // margin={{ top: 60, right: 110, bottom: 60, left: 80 }}
+            labelSkipWidth={16}
+            labelSkipHeight={16}
+            keys={['change']}
+            padding={0.4}
+            // colors={['#97e3d5', '#61cdbb', '#f47560', '#e25c3b']}
+            colors={({ value }) => (value && value < 0 ? '#f47560' : '#61cdbb')}
+            valueFormat={(v) => `${v}%`}
+            data={data}
+            indexBy={'name'}
+            minValue={-30}
+            maxValue={30}
+            enableGridX={true}
+            enableGridY={true}
+            labelTextColor={'inherit:darker(1.2)'}
+            axisTop={{
+              tickSize: 0,
+              tickPadding: 12
+            }}
+            // axisBottom={{
+            //   legend: 'USERS',
+            //   legendPosition: 'middle' as const,
+            //   legendOffset: 50,
+            //   tickSize: 0,
+            //   tickPadding: 12
+            // }}
+            axisLeft={null}
+            // axisRight={{
+            //   format: (v: number) => `${Math.abs(v)}%`
+            // }}
+            axisRight={null}
+            markers={[
+              {
+                axis: 'y',
+                value: 0,
+                lineStyle: { stroke: '#f47560', strokeWidth: 1 }
+              }
+              // {
+              //   axis: 'y',
+              //   value: 0,
+              //   lineStyle: { stroke: '#f47560', strokeWidth: 1 },
+              //   textStyle: { fill: '#e25c3b' },
+              //   legend: 'loss',
+              //   legendPosition: 'bottom-left',
+              //   legendOrientation: 'vertical',
+              //   legendOffsetY: 120
+              // } as const
+            ]}
+            theme={{ grid: { line: { stroke: isDarkTheme ? '#475569' : '#cbd5e1' } } }}
+          />
+        )}
+      </div>
     </section>
   );
 };
