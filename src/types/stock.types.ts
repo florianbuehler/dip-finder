@@ -5,6 +5,7 @@ export type Stock = {
   currency: string | undefined;
   regularMarketPrice: number | undefined;
   previousPrice: number | undefined;
+  closeQuotes: number[] | undefined;
 };
 
 export type StoredStock = {

@@ -53,7 +53,8 @@ const useStocksQueries = (stocks: StoredStock[]): UseQueryResult<Stock>[] => {
               regularMarketTime: undefined,
               currency: undefined,
               regularMarketPrice: undefined,
-              previousPrice: undefined
+              previousPrice: undefined,
+              closeQuotes: undefined
             };
           }
 
@@ -67,7 +68,8 @@ const useStocksQueries = (stocks: StoredStock[]): UseQueryResult<Stock>[] => {
               new Date(metaData.regularMarketTime * 1000).getDate() ===
               new Date((timestamps.at(-1) || 0) * 1000).getDate()
                 ? closeQuotes.at(-2)
-                : closeQuotes.at(-1)
+                : closeQuotes.at(-1),
+            closeQuotes: closeQuotes
           };
         }
       };

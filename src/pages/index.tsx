@@ -84,7 +84,7 @@ const Home: NextPage = () => {
           onAddStock={handleAddStock}
           onDelete={handleStockDelete}
         />
-        <PerformanceBarChart stocks={[]} />
+        <PerformanceBarChart stocks={stocks} />
       </>
     </>
   );

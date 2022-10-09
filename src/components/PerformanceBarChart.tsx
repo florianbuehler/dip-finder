@@ -1,16 +1,39 @@
 import React from 'react';
 import { Bar } from '@nivo/bar';
-import { Stock } from '../types';
+import { useStocksQueries } from '../hooks';
+import { StoredStock } from '../types';
 
 type Props = {
-  stocks: Stock[];
+  stocks: StoredStock[];
 };
 
+const getArrayAvg = (arr: number[]): number =>
+  arr.reduce((prev, curr) => prev + curr, 0) / arr.length;
+
 const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
-  const mockData = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+  const queries = useStocksQueries(stocks);
+
+  const isLoading =
+    queries.length === 0 || queries.reduce((prev, curr) => prev || curr.isFetching, false);
+
+  if (isLoading) {
+    return <h2>Loading</h2>;
+  }
+
+  const data = queries.map<{ ticker: string; name: string; change: string }>((query) => {
+    const last200CloseQuotes = query.data?.closeQuotes?.slice(-200);
+    let change = 0;
+
+    if (last200CloseQuotes && query.data?.regularMarketPrice) {
+      const last200DaysAverage = getArrayAvg(last200CloseQuotes);
+
+      change = ((query.data?.regularMarketPrice - last200DaysAverage) / last200DaysAverage) * 100;
+    }
+
     return {
-      change: -40 + 10 * i,
-      stock: ['AAPL', 'BAT', 'TIO', 'ABB', 'ABBV', 'BYND', 'BYD', 'BXP', 'BX'][i]
+      ticker: query.data!.ticker,
+      name: query.data!.name,
+      change: change.toFixed(2)
     };
   });
 
@@ -28,8 +51,8 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
         // colors={['#97e3d5', '#61cdbb', '#f47560', '#e25c3b']}
         colors={({ value }) => (value && value < 0 ? '#f47560' : '#61cdbb')}
         valueFormat={(v) => `${v}%`}
-        data={mockData}
-        indexBy={'stock'}
+        data={data}
+        indexBy={'name'}
         minValue={-100}
         maxValue={100}
         enableGridX={true}
