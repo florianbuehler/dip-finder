@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Stock } from './types';
-import { IconButton, Input } from './index';
+import { IconButton, Input } from '../../components';
+import { Stock } from '../../types';
 
 type Props = {
   onAddStock: (stock: Stock) => void;

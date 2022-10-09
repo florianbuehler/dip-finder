@@ -12,7 +12,7 @@ const IconButton: React.FC<Props> = ({ iconName, iconClassName, className, ...pr
     <div
       {...props}
       className={twMerge(
-        'h-10 w-10 p-2 flex items-center justify-center cursor-pointer fill-sky-500 hover:bg-sky-500/10 rounded-md',
+        'h-5 w-5 m-1.5 flex items-center justify-center cursor-pointer fill-sky-600 hover:fill-sky-400',
         className
       )}
     >

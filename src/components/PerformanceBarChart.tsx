@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from '@nivo/bar';
-import { Stock } from './types';
+import { Stock } from '../types';
 
 type Props = {
   stocks: Stock[];

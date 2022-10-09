@@ -6,3 +6,8 @@ export type Stock = {
   regularMarketPrice: number | undefined;
   previousPrice: number | undefined;
 };
+
+export type StoredStock = {
+  name: string;
+  ticker: string;
+};

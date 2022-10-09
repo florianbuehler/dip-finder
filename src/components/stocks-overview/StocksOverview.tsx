@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { UseQueryResult } from '@tanstack/react-query';
+import { IconButton } from '../../components';
+import { useStocksQueries } from '../../hooks';
+import { Stock, StoredStock } from '../../types';
 import AddStockCard from './AddStockCard';
 import StockOverviewCard from './StockOverviewCard';
-import { Stock } from './types';
-import { IconButton } from './index';
 
 type Props = {
   isLoading: boolean;
   successfullyLoaded: boolean;
-  queries: UseQueryResult<Stock>[];
+  stocks: StoredStock[];
   onAddStock: (stock: Stock) => void;
   onDelete: (ticker: string) => void;
 };
 
-const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onAddStock, onDelete }) => {
+const StocksOverview: React.FC<Props> = ({ successfullyLoaded, stocks, onAddStock, onDelete }) => {
   const [selectedStock, setSelectedStock] = useState<string>();
   const [showAddStockCard, setShowAddStockCard] = useState(false);
+
+  const queries = useStocksQueries(stocks);
 
   const handleAddStock = (stock: Stock) => {
     onAddStock(stock);
@@ -27,7 +29,7 @@ const StocksOverview: React.FC<Props> = ({ successfullyLoaded, queries, onAddSto
       <IconButton
         iconName="plus"
         onClick={() => setShowAddStockCard(true)}
-        className="absolute top-2 right-2 h-7 w-7 p-1 fill-slate-500 hover:fill-sky-500"
+        className="absolute top-1 right-1 fill-slate-500 hover:fill-sky-500"
       />
       <h2 className="text-center mb-6 text-2xl text-slate-900 dark:text-slate-200">Stocks</h2>
 

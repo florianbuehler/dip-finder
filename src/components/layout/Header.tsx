@@ -47,11 +47,17 @@ const Header: React.FC = () => {
       <div className="flex items-center gap-1 w-fit h-ful">
         <IconButton
           iconName={darkMode ? 'moon-stars' : 'sun'}
+          className="h-6 w-6"
           iconClassName={darkMode ? 'mb-1' : ''}
           onClick={handleThemeToggle}
         />
         {user && (
-          <IconButton iconName="sign-out" iconClassName="scale-90" onClick={handleSignOut} />
+          <IconButton
+            iconName="sign-out"
+            className="h-6 w-6"
+            iconClassName="scale-90"
+            onClick={handleSignOut}
+          />
         )}
       </div>
     </header>

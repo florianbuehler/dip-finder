@@ -1,47 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useQueries } from '@tanstack/react-query';
 import { deleteDoc, getDocs, collection, doc, setDoc } from 'firebase/firestore';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { PerformanceBarChart, StocksOverview } from '../components';
-import { Stock } from '../components/types';
 import { database } from '../config/firebase';
 import { useAuth } from '../hooks';
-
-type StoredStock = {
-  name: string;
-  ticker: string;
-};
-
-type YahooFinanceStockChart = {
-  chart: {
-    result: {
-      meta: {
-        currency: string;
-        regularMarketTime: number;
-        regularMarketPrice: number;
-      };
-      timestamp: number[];
-      indicators: {
-        quote: {
-          close: number[];
-        }[];
-      };
-    }[];
-  };
-};
-
-const getFinanceChart = async (ticker: string) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CORS_PROXY}https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1y`
-  );
-
-  if (!response.ok) {
-    throw new Error('Oops an error occurred!');
-  }
-
-  return response.json();
-};
+import { Stock, StoredStock } from '../types';
 
 const getStocksFromFirestore = async (userId: string): Promise<StoredStock[]> => {
   const querySnapshot = await getDocs(collection(database, `users/${userId}/stocks`));
@@ -90,50 +54,6 @@ const Home: NextPage = () => {
     }
   }, [user?.uid]);
 
-  const stockQueries = useQueries({
-    queries: stocks.map((stock) => {
-      return {
-        queryKey: ['stocks', stock.ticker],
-        placeholderData: { ...stock },
-        queryFn: () => getFinanceChart(stock.ticker),
-        staleTime: 1000 * 60 * 15,
-        cacheTime: 1000 * 60 * 15,
-        select: (data: YahooFinanceStockChart) => {
-          const result = data.chart?.result[0];
-          const metaData = result?.meta;
-          const timestamps = result?.timestamp;
-          const closeQuotes = result?.indicators.quote[0].close;
-
-          if (!result) {
-            return {
-              ticker: stock.ticker,
-              name: stock.name,
-              regularMarketTime: undefined,
-              currency: undefined,
-              regularMarketPrice: undefined,
-              previousPrice: undefined
-            };
-          }
-
-          return {
-            ticker: stock.ticker,
-            name: stock.name,
-            regularMarketTime: new Date(metaData.regularMarketTime * 1000),
-            currency: metaData.currency,
-            regularMarketPrice: metaData.regularMarketPrice,
-            previousPrice:
-              new Date(metaData.regularMarketTime * 1000).getDate() ===
-              new Date((timestamps.at(-1) || 0) * 1000).getDate()
-                ? closeQuotes.at(-2)
-                : closeQuotes.at(-1)
-          };
-        }
-      };
-    })
-  });
-
-  console.log('stockQueries:', stockQueries);
-
   const handleAddStock = async (stock: Stock) => {
     setStocks((prevStocks) =>
       [...prevStocks, { name: stock.name, ticker: stock.ticker }].sort(sortStocks)
@@ -160,7 +80,7 @@ const Home: NextPage = () => {
         <StocksOverview
           isLoading={isLoadingStocks}
           successfullyLoaded={successfullyLoadedStocks}
-          queries={stockQueries}
+          stocks={stocks}
           onAddStock={handleAddStock}
           onDelete={handleStockDelete}
         />

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
-import { Icon } from './icons';
-import { Stock } from './types';
-import { IconButton } from './index';
+import { IconButton } from '../../components';
+import { Icon } from '../../components/icons';
+import { Stock } from '../../types';
 
 type Props = {
   query: UseQueryResult<Stock>;
@@ -100,7 +100,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
         <IconButton
           iconName="trash-can"
           onClick={() => query.data?.ticker && onDelete(query.data?.ticker)}
-          className="h-8 w-8 ml-2 mr-[-0.75rem] fill-red-600 hover:bg-red-600/20"
+          className="h-4 w-4 ml-1 mr-[-0.5rem] fill-red-600 hover:fill-red-400"
         />
       )}
     </div>
