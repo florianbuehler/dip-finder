@@ -25,7 +25,7 @@ const StocksOverview: React.FC<Props> = ({ successfullyLoaded, stocks, onAddStoc
   };
 
   return (
-    <section className="relative bg-white dark:bg-slate-600/25 rounded-xl py-4 px-0 shadow-lg dark:ring-1 dark:ring-slate-100/10 w-96">
+    <section className="relative flex flex-col bg-white dark:bg-slate-600/25 rounded-xl pt-4 pb-2 px-0 shadow-lg dark:ring-1 dark:ring-slate-100/10 w-96 h-[calc(100vh_-_7rem)]">
       <IconButton
         iconName="plus"
         onClick={() => setShowAddStockCard(true)}
@@ -42,7 +42,7 @@ const StocksOverview: React.FC<Props> = ({ successfullyLoaded, stocks, onAddStoc
         />
       )}
       {successfullyLoaded && queries.length !== 0 && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-grow flex-shrink basis-auto flex-col gap-2 overflow-auto scrollbar-none">
           {queries.map((query) => (
             <StockOverviewCard
               key={query.data?.ticker}
