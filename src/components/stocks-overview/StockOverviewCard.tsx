@@ -11,6 +11,17 @@ type Props = {
   onDelete: (ticker: string) => void;
 };
 
+const getCurrencySymbol = (currency: string | undefined): string => {
+  switch (currency) {
+    case 'EUR':
+      return '€';
+    case 'USD':
+      return '$';
+    default:
+      return '';
+  }
+};
+
 const getMonthAbbreviation = (number: number): string => {
   switch (number) {
     case 1:
@@ -89,7 +100,7 @@ const StockOverviewCard: React.FC<Props> = ({ query, isSelected, onSelection, on
       <div className="flex flex-col items-end w-20">
         {query.data?.regularMarketPrice && (
           <span className="dark:text-slate-300">
-            {query.data?.regularMarketPrice?.toFixed(2)} €
+            {query.data?.regularMarketPrice?.toFixed(2)} {getCurrencySymbol(query.data?.currency)}
           </span>
         )}
         {query.data?.regularMarketTime && (
