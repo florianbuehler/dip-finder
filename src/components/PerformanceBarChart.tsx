@@ -19,10 +19,6 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   const isLoading =
     queries.length === 0 || queries.reduce((prev, curr) => prev || curr.isFetching, false);
 
-  // if (isLoading) {
-  //   return <h2>Loading</h2>;
-  // }
-
   const data = queries.map<{ ticker: string; name: string; change: string }>((query) => {
     const last200CloseQuotes = query.data?.closeQuotes?.slice(-200);
     let change = 0;
@@ -50,7 +46,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
           <Bar
             width={barChartRef.current?.offsetWidth || 900}
             height={500}
-            margin={{ top: 20 }}
+            margin={{ top: 40 }}
             labelSkipWidth={16}
             labelSkipHeight={16}
             keys={['change']}
@@ -58,27 +54,19 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
             colors={({ value }) => (value && value < 0 ? '#ef4444' : '#22c55e')}
             valueFormat={(v) => `${v}%`}
             data={data}
-            indexBy={'name'}
+            indexBy={'ticker'}
             minValue={-30}
             maxValue={30}
             enableGridX={true}
             enableGridY={true}
             labelTextColor={({ color }) => (color === '#ef4444' ? '#fee2e2' : '#dcfce7')}
+            tooltipLabel={(value) => `${value.data.name} (${value.data.ticker})`}
             axisTop={{
               tickSize: 0,
-              tickPadding: 12
+              tickPadding: 12,
+              tickRotation: -30
             }}
-            // axisBottom={{
-            //   legend: 'USERS',
-            //   legendPosition: 'middle' as const,
-            //   legendOffset: 50,
-            //   tickSize: 0,
-            //   tickPadding: 12
-            // }}
             axisLeft={null}
-            // axisRight={{
-            //   format: (v: number) => `${Math.abs(v)}%`
-            // }}
             axisRight={null}
             markers={[
               {
@@ -86,16 +74,6 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
                 value: 0,
                 lineStyle: { stroke: isDarkTheme ? '#94a3b8' : '#64748b', strokeWidth: 1 }
               }
-              // {
-              //   axis: 'y',
-              //   value: 0,
-              //   lineStyle: { stroke: '#f47560', strokeWidth: 1 },
-              //   textStyle: { fill: '#e25c3b' },
-              //   legend: 'loss',
-              //   legendPosition: 'bottom-left',
-              //   legendOrientation: 'vertical',
-              //   legendOffsetY: 120
-              // } as const
             ]}
             theme={{
               axis: { ticks: { text: { fill: isDarkTheme ? '#cbd5e1' : '#475569' } } },
