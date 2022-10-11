@@ -7,8 +7,26 @@ type Props = {
   stocks: StoredStock[];
 };
 
+type BarChartData = {
+  ticker: string;
+  name: string;
+  change: string;
+};
+
 const getArrayAvg = (arr: number[]): number =>
   arr.reduce((prev, curr) => prev + curr, 0) / arr.length;
+
+const getBarChartMinVal = (data: BarChartData[]): number => {
+  const min = Math.min(...data.map((d) => Number.parseFloat(d.change)));
+
+  return Math.round(min / 10) * 10 - 10;
+};
+
+const getBarChartMaxVal = (data: BarChartData[]): number => {
+  const min = Math.max(...data.map((d) => Number.parseFloat(d.change)));
+
+  return Math.round(min / 10) * 10 + 10;
+};
 
 const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   const { isDarkTheme } = useTheme();
@@ -19,7 +37,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   const isLoading =
     queries.length === 0 || queries.reduce((prev, curr) => prev || curr.isFetching, false);
 
-  const data = queries.map<{ ticker: string; name: string; change: string }>((query) => {
+  const data = queries.map<BarChartData>((query) => {
     const last200CloseQuotes = query.data?.closeQuotes?.slice(-200);
     let change = 0;
 
@@ -37,7 +55,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
   });
 
   return (
-    <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 px-8 shadow-lg dark:ring-1 dark:ring-slate-100/10">
+    <section className="flex-grow bg-white dark:bg-slate-600/25 rounded-xl py-4 px-8 shadow-lg dark:ring-1 dark:ring-slate-100/10 overflow-x-hidden">
       <h2 className="text-center mb-8 text-2xl text-slate-900 dark:text-slate-200">Performance</h2>
       <p className="mb-6">The performance of the stock in relation to the 200 days average.</p>
       <div ref={barChartRef}>
@@ -46,7 +64,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
           <Bar
             width={barChartRef.current?.offsetWidth || 900}
             height={500}
-            margin={{ top: 40 }}
+            margin={{ top: 40, bottom: 5, left: 25 }}
             labelSkipWidth={16}
             labelSkipHeight={16}
             keys={['change']}
@@ -55,8 +73,8 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
             valueFormat={(v) => `${v}%`}
             data={data}
             indexBy={'ticker'}
-            minValue={-30}
-            maxValue={30}
+            minValue={getBarChartMinVal(data)}
+            maxValue={getBarChartMaxVal(data)}
             enableGridX={true}
             enableGridY={true}
             labelTextColor={({ color }) => (color === '#ef4444' ? '#fee2e2' : '#dcfce7')}
@@ -66,7 +84,7 @@ const PerformanceBarChart: React.FC<Props> = ({ stocks }) => {
               tickPadding: 12,
               tickRotation: -30
             }}
-            axisLeft={null}
+            axisBottom={null}
             axisRight={null}
             markers={[
               {
