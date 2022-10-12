@@ -12,6 +12,9 @@
     <a style="text-decoration: none" href="https://tailwindcss.com/" alt="Tailwind CSS">
         <img src="https://img.shields.io/badge/styling-Tailwind_CSS-38bdf8" />
     </a>
+    <a style="text-decoration: none" href="https://react-query-v3.tanstack.com/" alt="React Query">
+        <img src="https://img.shields.io/badge/data_fetching-React_Query-ff4154" />
+    </a>
     <a style="text-decoration: none" href="https://eslint.org/" alt="Eslint">
         <img src="https://img.shields.io/badge/linter-ESLint-4a31c3" />
     </a>
@@ -19,6 +22,10 @@
         <img src="https://img.shields.io/badge/code_style-Prettier-ff69b4" />
     </a>
 </p>
+
+A Next.js application helping you to track a watchlist and to find stocks which are cheap with respect to the 200 days moving average.
+
+The application uses [Firebase Auth](https://firebase.google.com/docs/auth) to provide different authentication methods and [Firestore](https://firebase.google.com/docs/firestore) to persist the data.
 
 
 ## 🚀 Getting started
